@@ -38,7 +38,7 @@ public partial class @InputScheme: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""HorizontalAxis"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""3d0df923-33b0-48ec-87c2-64b4caa4a528"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

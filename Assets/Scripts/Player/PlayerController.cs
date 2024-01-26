@@ -34,6 +34,8 @@ namespace Player
         {
             _animationController.SetVelocityZ(Mathf.Abs(MovementVector.z));
             _animationController.SetVelocityY(_rigidbody.velocity.y);
+            _animationController.SetGrounded(mover.CheckGrounded());
+            _animationController.SetSlide(mover.slide);
         }
 
         private void JumpOnperformed(InputAction.CallbackContext obj)
@@ -46,12 +48,21 @@ namespace Player
         {
             inputScheme.Player.Enable();
             inputScheme.Player.Jump.performed += JumpOnperformed;
+            inputScheme.Player.Crouch.performed += CrouchOnperformed;
             //inputScheme.Player.Jump.canceled += JumpOnperformed;
         }
+
+        private void CrouchOnperformed(InputAction.CallbackContext obj)
+        {
+            mover.Slide();
+            //_animationController.SetSlide();
+        }
+
         private void OnDisable()
         {
             inputScheme.Player.Disable();
             inputScheme.Player.Jump.performed -= JumpOnperformed;
+            inputScheme.Player.Crouch.performed -= CrouchOnperformed;
             //inputScheme.Player.Jump.canceled -= JumpOnperformed;
 
         }

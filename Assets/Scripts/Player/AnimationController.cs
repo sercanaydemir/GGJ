@@ -31,5 +31,15 @@ namespace Player
         {
             _animator.SetBool("falling",isFalling);
         }
+        
+        public void SetGrounded(bool isGrounded)
+        {
+            _animator.SetBool("grounded",isGrounded);
+        }
+        
+        public void SetSlide(bool isSlide)
+        {
+            _animator.SetBool("slide",isSlide);
+        }
     }
 }
