@@ -16,27 +16,29 @@ namespace Player
         private InputScheme inputScheme;
         private AnimationController _animationController;
         private Vector3 MovementVector => new Vector3(0, 0, inputScheme.Player.HorizontalAxis.ReadValue<float>());
-        
+        private Rigidbody _rigidbody;
         private void Awake()
         {
             mover = new Mover(transform);
             mover.SetVariables(jumpPower,speed,groundCheckPosition,groundCheckRadius,groundLayer);
+            _rigidbody = GetComponent<Rigidbody>();
             inputScheme = new InputScheme();
             _animationController = new AnimationController(GetComponentInChildren<Animator>());
         }
         private void FixedUpdate()
         {
-            Debug.LogError(MovementVector);
             mover.Move(MovementVector,5f);
         }
 
         private void LateUpdate()
         {
             _animationController.SetVelocityZ(Mathf.Abs(MovementVector.z));
+            _animationController.SetVelocityY(_rigidbody.velocity.y);
         }
 
         private void JumpOnperformed(InputAction.CallbackContext obj)
         {
+            _animationController.TriggerJump();
             mover.Jump();
         }
 

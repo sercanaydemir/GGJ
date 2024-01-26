@@ -18,7 +18,7 @@ namespace Player
         
         private float jumpTime = 0.25f;
 
-        private float appliedJumpPower = 0;
+        public float appliedJumpPower = 0;
         public Mover(Transform transform)
         {
             _transform = transform;
@@ -41,13 +41,17 @@ namespace Player
             if (!CheckGrounded())
             {
                 appliedJumpPower-=gravity*Time.fixedDeltaTime;
+                if (appliedJumpPower < 0)
+                    appliedJumpPower = 0;
             }
+            
             _transform.position += moveDirection * Time.fixedDeltaTime;
             
         }
         
         public void Rotate(Vector3 direction)
         {
+            if (direction == Vector3.zero) return;
             if(_transform.forward.z/direction.z < 0)
                 _transform.Rotate(Vector3.up,180f);
         }

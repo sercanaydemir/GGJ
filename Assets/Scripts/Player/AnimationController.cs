@@ -6,6 +6,7 @@ namespace Player
     {
         private Animator _animator;
         private int VelocityZ => Animator.StringToHash("v");
+        private int VelocityY=> Animator.StringToHash("vy");
         public AnimationController(Animator animator)
         {
             _animator = animator;
@@ -14,6 +15,21 @@ namespace Player
         public void SetVelocityZ(float velocity)
         {
             _animator.SetFloat(VelocityZ,velocity);
+        }
+
+        public void TriggerJump()
+        {
+            _animator.SetTrigger("jump");
+        }
+        
+        public void SetVelocityY(float velocity)
+        {
+            _animator.SetFloat(VelocityY,velocity);
+        }
+
+        public void Falling(bool isFalling)
+        {
+            _animator.SetBool("falling",isFalling);
         }
     }
 }
