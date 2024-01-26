@@ -26,6 +26,7 @@ namespace Player
         }
         private void FixedUpdate()
         {
+            Debug.LogError(MovementVector);
             mover.Move(MovementVector,5f);
         }
 
