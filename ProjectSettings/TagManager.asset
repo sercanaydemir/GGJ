@@ -8,6 +8,7 @@ TagManager:
   - FailCollider
   - Enemy
   - Bullet
+  - Boss
   layers:
   - Default
   - TransparentFX

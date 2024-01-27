@@ -3,7 +3,7 @@ using MiniLevel.Interfaces;
 using UnityEngine;
 
 namespace MiniLevel.Managers
-{
+{ 
     public class DestroyerManager : MonoBehaviour
     { 
         private void OnTriggerEnter(Collider other)

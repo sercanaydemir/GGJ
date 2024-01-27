@@ -1,4 +1,5 @@
 ﻿using System;
+using MiniLevel.UI;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,9 +10,10 @@ namespace MiniLevel.Space
     {
         [SerializeField] private GameObject bullet;
         [SerializeField] private Transform bulletPoint;
-
         [SerializeField] private PlayerHealthController healthController;
+        [SerializeField] private HealthBarUIController healthBarUIController;
 
+        
         
         
         InputScheme inputScheme;
@@ -41,6 +43,7 @@ namespace MiniLevel.Space
             if (other.CompareTag("Enemy"))
             {
                 healthController.TakeDamage(1);
+                healthBarUIController.UpdateHealthBar((float) healthController.CurrentHealth / healthController.MaxHealth);
             }
         }
     }

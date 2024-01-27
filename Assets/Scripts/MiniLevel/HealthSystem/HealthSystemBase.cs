@@ -5,10 +5,12 @@ namespace MiniLevel.HealthSystem
 {
     public abstract class HealthSystemBase : MonoBehaviour,IDamageable
     {
-        [SerializeField] private int maxHealth;
+        [SerializeField] protected int maxHealth;
+
+        protected int _currentHealth;
         
-        private int _currentHealth;
-        
+        public int MaxHealth => maxHealth;
+        public int CurrentHealth => _currentHealth;
         protected virtual void Awake()
         {
             Init();
