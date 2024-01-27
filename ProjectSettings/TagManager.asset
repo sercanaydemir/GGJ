@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Wooden
   - FailCollider
+  - Enemy
+  - Bullet
   layers:
   - Default
   - TransparentFX
