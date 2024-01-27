@@ -17,7 +17,7 @@ namespace Player
         private void FixedUpdate()
         {
             Vector3 desiredPosition = target.position + offset;
-            desiredPosition.y = transform.position.y;
+            //desiredPosition.y = transform.position.y;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position,desiredPosition,smoothSpeed*Time.fixedDeltaTime);
             transform.position = smoothedPosition;
         }
