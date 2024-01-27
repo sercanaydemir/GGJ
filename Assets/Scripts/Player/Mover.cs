@@ -22,7 +22,9 @@ namespace Player
         public float slideForce = 10f;
         private float slideTargeValue;
         public float appliedSlideForce = 0;
-        public bool slide;
+
+        public Action<bool> OnSlideStatusChanged;
+        private bool slide;
 
         public Mover(Transform transform)
         {
@@ -36,7 +38,7 @@ namespace Player
             this.groundCheckRadius = groundCheckRadius;
             this.jumpPower = jumpPower;
             this.groundLayer = groundLayer;
-            slideForce = 10f;
+            slideForce = 15;
         }
         
         public void Move(Vector3 direction,float gravity)
@@ -44,11 +46,11 @@ namespace Player
             Rotate(direction);
             Vector3 moveDirection = new Vector3(0,appliedJumpPower,direction.z)*speed;
 
+            int directionSign = _transform.forward.z > 0 ? 1 : -1;
+            slideTargeValue = direction.z * speed *directionSign;
             if (slide)
             {
-                int directionSign = _transform.forward.z > 0 ? 1 : -1;
                 moveDirection.z = appliedSlideForce * directionSign;
-                slideTargeValue = direction.z * speed *directionSign;
             }
             
             
@@ -81,8 +83,13 @@ namespace Player
         public void Slide()
         {
             slide = true;
+            OnSlideStatusChanged?.Invoke(slide);
             appliedSlideForce = slideForce;
-            DOTween.To(x=>appliedSlideForce = x,slideForce,slideTargeValue,1.5f).SetEase(Ease.Linear).OnComplete(()=>slide = false);
+            DOTween.To(x=>appliedSlideForce = x,slideForce,slideTargeValue,1.5f).SetEase(Ease.Linear).OnComplete(()=>
+            {
+                slide = false;
+                OnSlideStatusChanged?.Invoke(slide);
+            });
         }
         public bool CheckGrounded()
         {

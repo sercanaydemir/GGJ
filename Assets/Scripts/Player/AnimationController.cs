@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Player
 {
@@ -11,7 +12,12 @@ namespace Player
         {
             _animator = animator;
         }
-        
+
+        public void DisableAnimator()
+        {
+            _animator.enabled = false;
+        }
+
         public void SetVelocityZ(float velocity)
         {
             _animator.SetFloat(VelocityZ,velocity);
@@ -41,5 +47,6 @@ namespace Player
         {
             _animator.SetBool("slide",isSlide);
         }
+        
     }
 }

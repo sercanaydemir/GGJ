@@ -86,6 +86,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  mainCollider: {fileID: 0}
+  slideCollider: {fileID: 0}
 --- !u!54 &86752757593486666
 Rigidbody:
   m_ObjectHideFlags: 0
