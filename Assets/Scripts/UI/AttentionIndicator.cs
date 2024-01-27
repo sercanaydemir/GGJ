@@ -12,46 +12,57 @@ namespace UI
         [SerializeField] private Image image;
         [SerializeField] private List<Transform> enemies;
         [SerializeField] private Transform player;
-
+        
         private float t = 0.1f;
 
         private void Update()
         {
-            if (enemies.Count == 0)
-                return;
-            
-            float minDistance = float.MaxValue;
-            Transform closestEnemy = null;
-            foreach (var enemy in enemies)
+            if (enemies.Count > 0)
             {
-                float distance = Vector3.Distance(enemy.position, player.position);
-                if (distance < minDistance)
+                float minDistance = float.MaxValue;
+                Transform closestEnemy = null;
+                foreach (var enemy in enemies)
                 {
-                    minDistance = distance;
-                    closestEnemy = enemy;
+                    float distance = Vector3.Distance(enemy.position, player.position);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        closestEnemy = enemy;
+                    }
                 }
-            }
-
-            if (closestEnemy == null)
-                return;
-            if (minDistance is < 25 and > 15)
-            {
-                Color c = image.color;
-                c.a = 1-GameUtil.Normalize(minDistance,10,20,0,1);
-                image.color = c;
                 
-            }
-            else if (minDistance < 15)
-            {
-                t -= Time.deltaTime;
-                if (t < 0)
+                
+
+                if (closestEnemy == null)
+                    return;
+                
+                if (closestEnemy.position.z < player.position.z)
                 {
-                    t = 0.1f;
+                    enemies.Remove(closestEnemy);
+                    return;
+                }
+                
+                if (minDistance is < 25 and > 15)
+                {
                     Color c = image.color;
-                    c.a = c.a == 0 ? 1 : 0;
+                    c.a = 1 - GameUtil.Normalize(minDistance, 10, 20, 0, 1);
                     image.color = c;
+
+                }
+                else if (minDistance < 15)
+                {
+                    t -= Time.deltaTime;
+                    if (t < 0)
+                    {
+                        t = 0.1f;
+                        Color c = image.color;
+                        c.a = c.a == 0 ? 1 : 0;
+                        image.color = c;
+                    }
                 }
             }
+            
+            
         }
         private void RemoveEnemy(Transform obj)
         {
@@ -59,13 +70,21 @@ namespace UI
                 enemies.Remove(obj);
         }
 
+        private void AddBarrel(Transform obj)
+        {
+            enemies.Add(obj);
+        }
+
         private void OnEnable()
         {
             OnEnemyDead += RemoveEnemy;
+            OnAddBarrel += AddBarrel;
         }
+
         private void OnDisable()
         {
             OnEnemyDead -= RemoveEnemy;
+            OnAddBarrel -= AddBarrel;
         }
 
 
@@ -74,5 +93,13 @@ namespace UI
         {
             OnEnemyDead?.Invoke(enemy);
         }
+        
+        public static event Action<Transform> OnAddBarrel;
+        public static void InvokeAddBarrel(Transform enemy)
+        {
+            OnAddBarrel?.Invoke(enemy);
+        }
+        
+        
     }
 }

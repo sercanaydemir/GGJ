@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UI;
 using UnityEngine;
 
 namespace Dungeon
@@ -43,6 +44,7 @@ namespace Dungeon
             Debug.LogError("wtf?");
             Barrel barrel = Instantiate(barrelPrefab, spawnPoint.position, Quaternion.Euler(0,0,90));
             barrel.StartMove(groundFirstPosition, groundEndPosition);
+            AttentionIndicator.InvokeAddBarrel(barrel.transform);
         }
 
         private void OnEnable()
