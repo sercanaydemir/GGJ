@@ -8,12 +8,10 @@ namespace MiniLevel.Space
 {
     public class PlayerSpaceCombatController : MonoBehaviour
     {
-        [SerializeField] private GameObject bullet;
+        [SerializeField] private BulletController bullet;
         [SerializeField] private Transform bulletPoint;
         [SerializeField] private PlayerHealthController healthController;
         [SerializeField] private HealthBarUIController healthBarUIController;
-
-        
         
         
         InputScheme inputScheme;
@@ -31,7 +29,9 @@ namespace MiniLevel.Space
         }
         private void Shoot(InputAction.CallbackContext obj)
         {
-            Instantiate(bullet, bulletPoint.position, Quaternion.identity);
+            BulletController bulletController = Instantiate(bullet, bulletPoint.position, Quaternion.identity);
+            bulletController.isBulletSelfMove = true;
+            bulletController.targetTag = "Enemy";
         }
 
         private void OnDisable()
@@ -43,7 +43,6 @@ namespace MiniLevel.Space
             if (other.CompareTag("Enemy"))
             {
                 healthController.TakeDamage(1);
-                healthBarUIController.UpdateHealthBar((float) healthController.CurrentHealth / healthController.MaxHealth);
             }
         }
     }

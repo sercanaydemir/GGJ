@@ -16,6 +16,7 @@ namespace Enemies
         private RagdollController ragdollController;
         private Animator animator;
         private Rigidbody _rigidbody;
+        private bool stopUpdate;
         private void Awake()
         {
             ragdollController = GetComponent<RagdollController>();
@@ -25,6 +26,7 @@ namespace Enemies
 
         private void FixedUpdate()
         {
+            if(stopUpdate) return;
             CheckFOV();
         }
 
@@ -60,10 +62,24 @@ namespace Enemies
             animator.enabled = false;
             AttentionIndicator.InvokeEnemyDead(transform);
         }
+        
+        void PlayerDead(Vector2 obj)
+        {
+            stopUpdate = true;
+        }
 
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position, checkRadius);
+        }
+
+        private void OnEnable()
+        {
+            PlayerController.OnDieWithCollideImpact += PlayerDead;
+        } 
+        private void OnDisable()
+        {
+            PlayerController.OnDieWithCollideImpact -= PlayerDead;
         }
     }
 }

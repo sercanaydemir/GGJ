@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Level_Western.unity
+    guid: b02577a54950ef949a2fcd9d37a1d40c
+  - enabled: 1
+    path: Assets/Scenes/MiniGame_Space.unity
+    guid: 32007165b32a24f41be7ec11dc337473
+  - enabled: 1
+    path: Assets/Scenes/Level_Dungeon.unity
+    guid: d515063cc7e552649959320dfe40578b
+  - enabled: 1
+    path: Assets/Scenes/MiniGame_Western.unity
+    guid: 9c434e8e5b22694409024c2ef10f6286
   m_configObjects: {}

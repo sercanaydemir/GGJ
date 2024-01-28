@@ -1,18 +1,21 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Player;
+using UI;
 using UnityEngine;
 
 namespace Dungeon
 {
     public class Barrel : MonoBehaviour
     {
-        [SerializeField] private float moveDuration = 4f;
+        [SerializeField] public float moveDuration = 4f;
         public void StartMove(Transform groundFirstPosition, Transform groundEndPosition)
         {
             transform.DOJump(groundFirstPosition.position, 3f, 1, 1f).SetEase(Ease.InSine).OnComplete(() =>
             {
                 transform.DOMoveZ(groundEndPosition.position.z, moveDuration).SetEase(Ease.Linear).OnComplete(() =>
                 {
+                    AttentionIndicator.InvokeEnemyDead(transform);
                     Destroy(gameObject);
                 });
             });
@@ -30,6 +33,19 @@ namespace Dungeon
                 PlayerController.InvokeDieWithCollideImpact(other.ClosestPoint(transform.position)+Vector3.up);
             }
         }
-       
+
+        private void OnEnable()
+        {
+            PlayerController.OnDieWithCollideImpact += DieWithCollideImpact;
+        }
+        private void OnDisable()
+        {
+            PlayerController.OnDieWithCollideImpact -= DieWithCollideImpact;
+        }
+
+        private void DieWithCollideImpact(Vector2 obj)
+        {
+            transform.DOKill();
+        }
     }
 }

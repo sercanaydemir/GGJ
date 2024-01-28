@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace Player
             this.groundCheckRadius = groundCheckRadius;
             this.jumpPower = jumpPower;
             this.groundLayer = groundLayer;
-            slideForce = 15;
+            slideForce = 12;
         }
         
         public void Move(Vector3 direction,float gravity)
@@ -82,6 +83,7 @@ namespace Player
 
         public void Slide()
         {
+            if(slide) return;
             slide = true;
             OnSlideStatusChanged?.Invoke(slide);
             appliedSlideForce = slideForce;

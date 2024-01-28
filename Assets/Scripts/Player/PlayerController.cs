@@ -1,5 +1,7 @@
 ﻿using System;
 using Enemies;
+using Levels;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -18,12 +20,14 @@ namespace Player
         [SerializeField] private GameObject slideCollider;
         
         private Mover mover;
-        private InputScheme inputScheme;
+        public InputScheme inputScheme;
         private AnimationController _animationController;
         RagdollController ragdollController;
         private Vector3 MovementVector => new Vector3(0, 0, inputScheme.Player.HorizontalAxis.ReadValue<float>());
         private Rigidbody _rigidbody;
         private bool slideStatus;
+        public bool isDead;
+        public bool isWin;
         private void Awake()
         {
             mover = new Mover(transform);
@@ -35,6 +39,10 @@ namespace Player
         }
         private void FixedUpdate()
         {
+            if (isDead && isWin)
+            {
+                mover.Move(Vector3.zero,5f);
+            }
             mover.Move(MovementVector,5f);
         }
 
@@ -53,8 +61,8 @@ namespace Player
         private void OnSlideStatusChanged(bool obj)
         {
             slideStatus = obj;
-            mainCollider.SetActive(!obj);
             slideCollider.SetActive(obj);
+            mainCollider.SetActive(!obj);
             _animationController.SetSlide(obj);
         }
 
@@ -65,13 +73,18 @@ namespace Player
 
         private void DieWithCollideImpact(Vector2 obj)
         {
+            if(isWin) return;
+            isDead = true;
             inputScheme.Player.Disable();
             Vector3 direction = new Vector3(obj.x,1,obj.y) - transform.position; 
             _rigidbody.AddForce(direction.normalized*5,ForceMode.Impulse);
             ragdollController.InvokeEnableRagdoll();
             _animationController.DisableAnimator();
-
-            Invoke(nameof(InvokeScene),3);
+            mainCollider.SetActive(false);
+            slideCollider.SetActive(false);
+            
+            
+            //Invoke(nameof(InvokeScene),3);
         }
 
         void InvokeScene()
@@ -90,6 +103,10 @@ namespace Player
                 enemy.Die(transform.position);
             }
         }
+        void LevelEndPortalOnOnLevelCompleted()
+        {
+            isWin = true;
+        }
 
         private void OnEnable()
         {
@@ -98,6 +115,8 @@ namespace Player
             inputScheme.Player.Crouch.performed += CrouchOnperformed;
             mover.OnSlideStatusChanged += OnSlideStatusChanged;
             OnDieWithCollideImpact += DieWithCollideImpact;
+            LevelEndPortal.OnLevelCompleted += LevelEndPortalOnOnLevelCompleted;
+
         }
 
 

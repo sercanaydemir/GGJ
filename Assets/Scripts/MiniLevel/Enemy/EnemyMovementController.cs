@@ -21,12 +21,9 @@ namespace MiniLevel.Enemy
             while (true)
             {
                 Dice();
-                transform.DOMove( new Vector3(transform.position.x + _movementRange, transform.position.y, transform.position.z), movementSpeed);
-                transform.position = new Vector3(Mathf.Clamp(transform.position.x, -6.5f, 6.5f), transform.position.y, transform.position.z);
+                transform.DOMove( new Vector3(Mathf.Clamp(transform.position.x + _movementRange,-6.5f,6.5f), transform.position.y, transform.position.z), movementSpeed);
                 yield return new WaitForSeconds(_movementDelay);
-                
-                
-                
+
             }
         }
 

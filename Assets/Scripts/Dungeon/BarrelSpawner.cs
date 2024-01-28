@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using DG.Tweening;
+using Player;
 using UI;
 using UnityEngine;
 
@@ -11,7 +13,10 @@ namespace Dungeon
         [SerializeField] private Transform spawnPoint;
         [SerializeField] private Transform groundFirstPosition;
         [SerializeField] private Transform groundEndPosition;
+        [SerializeField] private float spawnInterval = 2.5f;
+        [SerializeField] private float barrowMoveDuration = 4f;
         private Coroutine spawnerRoutine;
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -22,11 +27,10 @@ namespace Dungeon
 
         IEnumerator StartSpawner()
         {
-            float t = 2.5f;
             while (true)
             {
                 SpawnBarrel();
-                yield return new WaitForSeconds(t);
+                yield return new WaitForSeconds(spawnInterval);
             }
 
         }
@@ -41,8 +45,8 @@ namespace Dungeon
         
         private void SpawnBarrel()
         {
-            Debug.LogError("wtf?");
             Barrel barrel = Instantiate(barrelPrefab, spawnPoint.position, Quaternion.Euler(0,0,90));
+            barrel.moveDuration = barrowMoveDuration;
             barrel.StartMove(groundFirstPosition, groundEndPosition);
             AttentionIndicator.InvokeAddBarrel(barrel.transform);
         }
@@ -50,13 +54,21 @@ namespace Dungeon
         private void OnEnable()
         {
             OnStopSpawner += StopSpawner;
+            PlayerController.OnDieWithCollideImpact += DieWithCollideImpact;
+
         }
         
         private void OnDisable()
         {
             OnStopSpawner -= StopSpawner;
+            PlayerController.OnDieWithCollideImpact -= DieWithCollideImpact;
+
         }
 
+        private void DieWithCollideImpact(Vector2 obj)
+        {
+            StopSpawner();
+        }
         #region events
 
         public static event Action OnStopSpawner;

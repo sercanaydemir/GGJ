@@ -1,7 +1,9 @@
 ﻿using System;
 using MiniLevel.HealthSystem;
 using MiniLevel.UI;
+using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MiniLevel.Enemy
 {
@@ -13,14 +15,22 @@ namespace MiniLevel.Enemy
         {
             base.Awake();
         }
-
-        private void OnTriggerEnter(Collider other)
+        public void Damage()
         {
-            if (other.CompareTag("Bullet"))
-            {
-                TakeDamage(1);
-                healthBarUIController.UpdateHealthBar((float) _currentHealth / maxHealth);
-            }
+            TakeDamage(1);
+            healthBarUIController.UpdateHealthBar((float) _currentHealth / maxHealth);
+        }
+        
+        public override void Die()
+        {
+            base.Die();
+            gameObject.SetActive(false);
+            
+            int sceneIndex = SceneManager.GetActiveScene().buildIndex +1;
+            if(sceneIndex < SceneManager.sceneCountInBuildSettings)
+                SceneManager.LoadScene(sceneIndex);
+            else 
+                LevelEndPanel.InvokeOnLevelCompleted();
         }
     }
 }

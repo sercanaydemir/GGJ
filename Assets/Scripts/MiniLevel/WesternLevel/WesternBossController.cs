@@ -21,10 +21,24 @@ namespace MiniLevel.WesternLevel
 
         private bool bossSpecial = false;
         private float bossSpecialTimer;
+        
+        float timer = 1f;
         private void Start()
         {
             StartCoroutine(MoveAndWait());
             StartCoroutine(TriggerBossSpecial());
+        }
+
+        private void Update()
+        {
+            if(timer > 0)
+                timer -= Time.deltaTime;
+            else
+            {
+                timer = 1f;
+                Instantiate(bullet, bulletPoint.position, Quaternion.identity);
+            }
+
         }
 
         private IEnumerator TriggerBossSpecial()
@@ -66,7 +80,7 @@ namespace MiniLevel.WesternLevel
             
             OnBossSpecialAttack(!bossSpecial);
             
-            transform.DOMoveY( 0.25f, 1f).OnComplete(() =>
+            transform.DOMoveY( Random.Range(-0.5f,0.5f), 1f).OnComplete(() =>
             {
                 transform.DOMoveX(2, 1f).OnComplete(() =>
                 {
@@ -80,7 +94,7 @@ namespace MiniLevel.WesternLevel
             for (int i = 0; i < 3; i++)
             {
                 Instantiate(bullet, bulletPoint.position, Quaternion.identity);
-                yield return new WaitForSeconds(.25f);     
+                yield return new WaitForSeconds(.15f);     
             }
             bossSpecial = false;
             
@@ -90,6 +104,7 @@ namespace MiniLevel.WesternLevel
             {
                 StartCoroutine(MoveAndWait());
             });
+            
         }
 
         #region Events
