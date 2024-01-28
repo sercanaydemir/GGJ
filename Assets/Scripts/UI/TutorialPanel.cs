@@ -17,13 +17,13 @@ namespace UI
 
         private void CloseTutorials()
         {
-            if (_isTutorialsClosed) return;
-            foreach (var tutorial in tutorials)
-            {
-                tutorial.SetActive(false);
-            }
-                
-            _isTutorialsClosed = true;
+            // if (_isTutorialsClosed) return;
+            // foreach (var tutorial in tutorials)
+            // {
+            //     tutorial.SetActive(false);
+            // }
+            //     
+            // _isTutorialsClosed = true;
         }
 
         private void Update()

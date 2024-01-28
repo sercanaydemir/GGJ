@@ -58,6 +58,7 @@ namespace UI
         {
             text.DOText(nextText, 2).OnComplete(() =>
             {
+                if(isWin) return;
                 continueText.text = "Press any button to continue";
                 isFail = true;
             });

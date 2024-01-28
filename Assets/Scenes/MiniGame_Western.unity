@@ -1755,10 +1755,44 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1346278935}
     m_Modifications:
+    - target: {fileID: 212854734, guid: cd876892858f6504780f76eab4fdad1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4975125843248813236, guid: cd876892858f6504780f76eab4fdad1e,
         type: 3}
       propertyPath: m_text
-      value: 'W/S : Movement'
+      value: '[W]/[S] : Movement'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843248813236, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843248813236, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843248813236, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843248813236, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843248813237, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 967
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843248813238, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4975125843461822182, guid: cd876892858f6504780f76eab4fdad1e,
         type: 3}
@@ -1874,6 +1908,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: 'Left Click: Shoot'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843908594277, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843908594277, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843908594277, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843908594277, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843908594278, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 912
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975125843908594279, guid: cd876892858f6504780f76eab4fdad1e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd876892858f6504780f76eab4fdad1e, type: 3}
