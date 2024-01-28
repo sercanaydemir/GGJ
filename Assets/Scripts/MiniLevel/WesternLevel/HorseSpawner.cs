@@ -44,7 +44,7 @@ namespace MiniLevel.WesternLevel
                 yield return new WaitForSeconds(spawnInterval);
                 GameObject h = Instantiate(horse, spawnPoint.position, quaternion.identity);
                 
-                h.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                //h.transform.rotation = Quaternion.Euler(0, -90f, 0);
             }
         } 
     }

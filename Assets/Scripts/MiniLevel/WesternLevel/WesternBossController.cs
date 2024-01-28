@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DG.Tweening;
+using MiniLevel.Enemy;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,21 +10,33 @@ namespace MiniLevel.WesternLevel
     public class WesternBossController : MonoBehaviour
     {
         [SerializeField] private float movementSpeed;
-
+        [SerializeField] private GameObject bullet;
+        [SerializeField] private Transform bulletPoint;
+        [SerializeField] private EnemyHealthController _enemyHealthController;
+        
+        
+        
         private float _movementRange;
         private float _movementDelay;
 
         private bool bossSpecial = false;
+        private float bossSpecialTimer;
         private void Start()
         {
             StartCoroutine(MoveAndWait());
+            StartCoroutine(TriggerBossSpecial());
         }
 
-        private void Update()
+        private IEnumerator TriggerBossSpecial()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            while (true)
             {
-                BossSpecial();
+                yield return new WaitForSeconds(Random.Range(10f, 15f));
+                
+                if (!bossSpecial)
+                {
+                    BossSpecial();
+                }
             }
         }
 
@@ -32,8 +45,6 @@ namespace MiniLevel.WesternLevel
             while (!bossSpecial)
             {
                 Dice();
-                /*transform.DOMove( new Vector3(transform.position.x, transform.position.y  + _movementRange, transform.position.z), movementSpeed);
-                transform.position = new Vector3(Mathf.Clamp(transform.position.x, -6.5f, 6.5f), transform.position.y, transform.position.z);*/
                 MoveVertical();
                 yield return new WaitForSeconds(_movementDelay);
             }
@@ -41,37 +52,43 @@ namespace MiniLevel.WesternLevel
 
         private void MoveVertical()
         {
-            /*movementSpeed = Mathf.Abs(transform.position.x - _movementRange) * 2 ;*/ 
             transform.DOMoveY( _movementRange, movementSpeed).OnComplete(Dice);
         }
         private void Dice()
         {
             _movementDelay = Random.Range(.75f, 1f);
-            //movementSpeed = Random.Range(1f, 3f);
             _movementRange = Random.Range(-2.5f, 5f);
         }
 
         private void BossSpecial()
         {
-            //Debug.LogError("1");
-            
             bossSpecial = true;
             
             OnBossSpecialAttack(!bossSpecial);
             
-            transform.DOMoveY( 0, 1f).OnComplete(() =>
+            transform.DOMoveY( 0.25f, 1f).OnComplete(() =>
             {
-                //Debug.LogError("2");
-                
-                transform.DOMoveX( 2, 1f).OnComplete(() =>
+                transform.DOMoveX(2, 1f).OnComplete(() =>
                 {
-                   // Debug.LogError("3");
-                   
-                   OnBossSpecialAttack(bossSpecial);
-                   
-                    bossSpecial = false;
-                   
+                    StartCoroutine(Attack());
                 });
+            });
+        }
+        
+        private IEnumerator Attack ()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(bullet, bulletPoint.position, Quaternion.identity);
+                yield return new WaitForSeconds(.25f);     
+            }
+            bossSpecial = false;
+            
+            OnBossSpecialAttack(!bossSpecial);
+            
+            transform.DOMoveX( 7, .5f).OnComplete(() =>
+            {
+                StartCoroutine(MoveAndWait());
             });
         }
 

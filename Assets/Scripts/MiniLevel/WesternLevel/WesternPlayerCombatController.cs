@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using MiniLevel.UI;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +11,9 @@ namespace MiniLevel.WesternLevel
         [SerializeField] private GameObject bullet;
         [SerializeField] private Transform bulletPoint;
         [SerializeField] private float shootCooldown;
+        [SerializeField] private PlayerHealthController healthController;
+        [SerializeField] private HealthBarUIController healthBarUIController;
+        
         
         private InputScheme inputScheme;
         private float lastShotTime;
@@ -43,6 +48,15 @@ namespace MiniLevel.WesternLevel
         private void OnDisable()
         {
             inputScheme.Player.Disable();
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Bullet"))
+            {
+                healthController.TakeDamage(1);
+                healthBarUIController.UpdateHealthBar((float) healthController.CurrentHealth / healthController.MaxHealth);
+            }
         }
     }
 }
