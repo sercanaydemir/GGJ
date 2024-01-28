@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using MiniLevel.UI;
 using Player;
 using UnityEngine;
@@ -58,5 +59,7 @@ namespace MiniLevel.WesternLevel
                 healthBarUIController.UpdateHealthBar((float) healthController.CurrentHealth / healthController.MaxHealth);
             }
         }
+
+      
     }
 }

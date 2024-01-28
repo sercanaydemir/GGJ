@@ -2,6 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 using MiniLevel.Enemy;
+using Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,17 +15,33 @@ namespace MiniLevel.WesternLevel
         [SerializeField] private Transform bulletPoint;
         [SerializeField] private EnemyHealthController _enemyHealthController;
         
-        
-        
         private float _movementRange;
         private float _movementDelay;
 
         private bool bossSpecial = false;
         private float bossSpecialTimer;
-        
+
+        private bool _canAttack;
         float timer = 1f;
+
+        private void Awake()
+        {
+            PlayerHealthController.OnPlayerDeath += ChangeAttackCondition;
+        }
+
+        private void OnDestroy()
+        {
+            PlayerHealthController.OnPlayerDeath -= ChangeAttackCondition;
+        }
+        
+        private void ChangeAttackCondition()
+        {
+            _canAttack = false;
+        }
+
         private void Start()
         {
+            _canAttack = true;
             StartCoroutine(MoveAndWait());
             StartCoroutine(TriggerBossSpecial());
         }
@@ -36,7 +53,11 @@ namespace MiniLevel.WesternLevel
             else
             {
                 timer = 1f;
-                Instantiate(bullet, bulletPoint.position, Quaternion.identity);
+                if (_canAttack)
+                { 
+                    Instantiate(bullet, bulletPoint.position, Quaternion.identity);    
+                }
+                
             }
 
         }

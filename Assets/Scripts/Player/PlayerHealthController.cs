@@ -26,7 +26,17 @@ namespace Player
         {
             base.Die();
             LevelEndPanel.InvokeOnLevelFailed();
-            
+            InvokeOnPlayerDeath();
         }
+        
+        #region Events
+
+        public static event Action OnPlayerDeath;
+        private void InvokeOnPlayerDeath()
+        {
+            OnPlayerDeath?.Invoke();
+        }
+
+        #endregion
     }
 }
